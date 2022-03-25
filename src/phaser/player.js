@@ -1,11 +1,11 @@
 class Player extends Phaser.GameObjects.Sprite{
     constructor(scene){
-        super(scene, 32+16, 32+16, 'player');
+        super(scene, scene.calculateTilePos(1), scene.calculateTilePos(1), 'player');
         scene.add.existing(this);
         this.facing = "down";
     }
 
-    getPlayerTile(){
+    getPosition(){
         return this.getCenter();
     }
 
@@ -22,15 +22,15 @@ class Player extends Phaser.GameObjects.Sprite{
                 this.setFrame(0);
                 break;
             case "left":
-                this.setFrame(1);
+                this.setFrame(2);
                 break;
             case "right":
-                this.setFrame(2);
+                this.setFrame(1);
                 break;
         }
     }
 
-    moveTileCheck(direction, layer){
+    moveTile(direction, scene){
         var moveX;
         var moveY;
         switch (direction){
@@ -52,9 +52,8 @@ class Player extends Phaser.GameObjects.Sprite{
                 break;
             default:
         }
-
-        var tile = layer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);
-        if(tile.index !== 2 ){
+        var tile = scene.layer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);
+        if(tile.index !== 2 && tile.index !== 1 && tile !== scene.npc.getTile(scene)){
             this.x += moveX;
             this.y += moveY;
             this.facing = direction;
@@ -62,5 +61,31 @@ class Player extends Phaser.GameObjects.Sprite{
         else{
             this.facing = direction;
         }
+    }
+
+    checkTile(direction, scene){
+        var checkX;
+        var checkY;
+        switch (direction){
+            case "up":
+                checkX = 0;
+                checkY = -32;
+                break;
+            case "down":
+                checkX = 0;
+                checkY = 32;
+                break;
+            case "left":
+                checkX = -32;
+                checkY = 0;
+                break;
+            case "right":
+                checkX = 32;
+                checkY = 0;
+                break;
+            default:
+        }
+        var tile = scene.layer.getTileAtWorldXY(this.x + checkX, this.y + checkY, true);
+        return tile;
     }
 }
