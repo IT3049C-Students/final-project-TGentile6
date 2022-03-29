@@ -3,23 +3,24 @@ class mainScene extends Phaser.Scene {
         super("mainScene");
     }
     create(){
-        this.add.text(config.width/2, config.height/2, "Playing Game").setOrigin(0.5);
+        //Create the map and it's layers from the Tiled JSON data
+        this.drawMap();
 
-        this.map = this.make.tilemap({ key: 'map', tileWidth: 32, tileHeight: 32 });
-        this.tileset = this.map.addTilesetImage('tiles', null, 32, 32, 1, 2);
-        this.layer = this.map.createLayer(0, this.tileset, 0, 0);
-
-        this.player = new Player(this) //Creates player from player class
+        //create the player and cursor keys
+        this.player = new Player(this)
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-        this.npc = new NPC(this, this.calculateTilePos(6), this.calculateTilePos(2), "npc", "1");
-        this.npc2 = new NPC(this, this.calculateTilePos(16), this.calculateTilePos(14), "npc", "2");
+        //set the camera to follow player with bounds at the edges of the world
+        this.cameras.main.setBounds(0, 0, 51 * 16, 50 * 16);
+        this.cameras.main.startFollow(this.player);
+
+        //set up the NPCS
+        this.npc = new NPC(this, this.calculateTilePos(10), this.calculateTilePos(25), "npc", "1");
+        this.npc2 = new NPC(this, this.calculateTilePos(25), this.calculateTilePos(34), "npc", "2");
         this.npc2.updateSpriteDirection("down");
         this.npcGroup = this.add.group();
         this.npcGroup.addMultiple([this.npc, this.npc2])
-
-        this.canMove = true; //value to check if the player is currently allowed to move
-        this.inDialogue = false; //value to check if the player is currently reading dialogue
+        
     }
 
     update(){
@@ -57,12 +58,8 @@ class mainScene extends Phaser.Scene {
         }
     }
 
-    callLog(player){
-        console.log(player.getPlayerTile().x + " " + player.getPlayerTile().y)
-    }
-
     calculateTilePos(num){ //returns the center position of the tile when you input the grid number of the tile
-        return num * 32 + 16;
+        return num * 16 + 8;
     }
 
     checkIfOccupiedTile(tile){ //returns false if any NPCs are located at the tile the player is trying to move to.
@@ -70,9 +67,30 @@ class mainScene extends Phaser.Scene {
         this.npcGroup.getChildren().forEach(npc => {
             if(npc.getTile(this) == tile){
                 occupied = true;
-                return occupied
+                return occupied;
             }
         });
-        return occupied
+        return occupied;
+    }
+
+    drawMap(){
+        this.map = this.make.tilemap({key :'newMap'});
+        this.tileset = this.map.addTilesetImage('PKMN Tiles', 'newTiles');
+
+        this.grass = this.map.createLayer('GRASS', this.tileset);
+        
+        this.deco = this.map.createLayer('GRASSDECORATION', this.tileset);
+        this.deco.depth = 1;
+
+        this.plants = this.map.createLayer('PLANTS', this.tileset);
+        this.plants.depth = 2;
+
+        this.tree = this.map.createLayer('TREE', this.tileset);
+        this.tree.depth = 3;
+
+        this.treecorner = this.map.createLayer('TREECORNER', this.tileset);
+        this.treecorner.depth = 4;
+
+        this.collisionLayer = this.map.createLayer('COLLISIONS', this.tileset);
     }
 }

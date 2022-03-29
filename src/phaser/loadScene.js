@@ -4,13 +4,15 @@ class loadScene extends Phaser.Scene {
     }
     preload(){
         this.load.image('tiles', 'assets/tiles/testTiles.png');
+        this.load.image('newTiles', 'assets/tiles/pkmntiles.png')
+        this.load.tilemapTiledJSON('newMap', 'assets/tiles/TESTMAP.json')
         this.load.spritesheet("player", "assets/sprites/testPlayerSprite.png",{
-            frameWidth: 32,
-            frameHeight: 32
+            frameWidth: 16,
+            frameHeight: 16
         });
         this.load.spritesheet("npc", "assets/sprites/testNPCSprite.png",{
-            frameWidth: 32,
-            frameHeight: 32
+            frameWidth: 16,
+            frameHeight: 16
         });
         this.load.tilemapCSV('map', 'assets/tiles/testGrid.csv');
     }

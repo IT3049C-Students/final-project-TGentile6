@@ -8,7 +8,7 @@ class NPC extends Phaser.GameObjects.Sprite{
 
     getTile(scene){
         var center = this.getCenter();
-        var tile = scene.layer.getTileAtWorldXY(center.x, center.y, true);
+        var tile = scene.collisionLayer.getTileAtWorldXY(center.x, center.y, true);
         return tile;
     }
 

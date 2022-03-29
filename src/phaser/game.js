@@ -1,11 +1,20 @@
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 300,
     debug: false,
+    scale: {
+        zoom: 4
+    },
     backgroundColor: 0xFFFFFF,
     pixelArt: true,
     scene: [loadScene, mainScene],
+    physics: {
+        default: "arcade",
+        arcade:{
+            debug: false
+        }
+    }
 }
 
 window.onload = function(){
