@@ -61,7 +61,18 @@ class mainScene extends Phaser.Scene {
         console.log(player.getPlayerTile().x + " " + player.getPlayerTile().y)
     }
 
-    calculateTilePos(num){
+    calculateTilePos(num){ //returns the center position of the tile when you input the grid number of the tile
         return num * 32 + 16;
+    }
+
+    checkIfOccupiedTile(tile){ //returns false if any NPCs are located at the tile the player is trying to move to.
+        let occupied = false;
+        this.npcGroup.getChildren().forEach(npc => {
+            if(npc.getTile(this) == tile){
+                occupied = true;
+                return occupied
+            }
+        });
+        return occupied
     }
 }
