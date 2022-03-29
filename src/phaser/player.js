@@ -54,7 +54,7 @@ class Player extends Phaser.GameObjects.Sprite{
         }
         var tile = scene.layer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);
         console.log(scene.checkIfOccupiedTile(tile));
-        if(tile.index !== 2 && tile.index !== 1 && !scene.checkIfOccupiedTile(tile)){ //Create boolean function to replace individual NPC checks (true if no NPCs on tile)
+        if(tile.index !== 2 && tile.index !== 1 && !scene.checkIfOccupiedTile(tile)){
             this.x += moveX;
             this.y += moveY;
             this.facing = direction;
