@@ -31,29 +31,9 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     moveTile(direction, scene){
-        var moveX;
-        var moveY;
-        switch (direction){
-            case "up":
-                moveX = 0;
-                moveY = -32;
-                break;
-            case "down":
-                moveX = 0;
-                moveY = 32;
-                break;
-            case "left":
-                moveX = -32;
-                moveY = 0;
-                break;
-            case "right":
-                moveX = 32;
-                moveY = 0;
-                break;
-            default:
-        }
+        var moveX = this.getDirectionX(direction);
+        var moveY = this.getDirectionY(direction);
         var tile = scene.layer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);
-        console.log(scene.checkIfOccupiedTile(tile));
         if(tile.index !== 2 && tile.index !== 1 && !scene.checkIfOccupiedTile(tile)){
             this.x += moveX;
             this.y += moveY;
@@ -65,28 +45,49 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     checkTile(direction, scene){
-        var checkX;
-        var checkY;
+        var checkX = this.getDirectionX(direction);
+        var checkY = this.getDirectionY(direction);
+        var tile = scene.layer.getTileAtWorldXY(this.x + checkX, this.y + checkY, true);
+        return tile;
+    }
+
+    getDirectionX(direction){
+        let Xvalue;
         switch (direction){
             case "up":
-                checkX = 0;
-                checkY = -32;
+                Xvalue = 0;
                 break;
             case "down":
-                checkX = 0;
-                checkY = 32;
+                Xvalue = 0;
                 break;
             case "left":
-                checkX = -32;
-                checkY = 0;
+                Xvalue = -32;
                 break;
             case "right":
-                checkX = 32;
-                checkY = 0;
+                Xvalue = 32;
                 break;
             default:
         }
-        var tile = scene.layer.getTileAtWorldXY(this.x + checkX, this.y + checkY, true);
-        return tile;
+        return Xvalue;
+    }
+
+    getDirectionY(direction){
+        let Yvalue;
+        switch (direction){
+            case "up":
+                Yvalue = -32;
+                break;
+            case "down":
+                Yvalue = 32;
+                break;
+            case "left":
+                Yvalue = 0;
+                break;
+            case "right":
+                Yvalue = 0;
+                break;
+            default:
+        }
+        return Yvalue;
     }
 }
