@@ -5,13 +5,14 @@ class mainScene extends Phaser.Scene {
     create(){
         //Create the map and it's layers from the Tiled JSON data
         this.drawMap();
+        this.tileSize = 16;
 
-        //create the player and cursor keys
+        //create the player, cursor keys
         this.player = new Player(this)
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
         //set the camera to follow player with bounds at the edges of the world
-        this.cameras.main.setBounds(0, 0, 51 * 16, 50 * 16);
+        this.cameras.main.setBounds(0, 0, 51 * this.tileSize, 50 * this.tileSize);
         this.cameras.main.startFollow(this.player);
 
         //set up the NPCS
@@ -23,27 +24,28 @@ class mainScene extends Phaser.Scene {
         
     }
 
-    update(){
+    update(time, delta){
         this.checkMovement();
         this.talkToNPC();
+        this.player.updatePosition(delta);
     }
 
     checkMovement(){
         if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W))){
             this.player.moveTile("up", this);
-            this.player.updateSpriteDirection("up");
+            // this.movePhys.movePlayer("up");
         }
         if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S))){
             this.player.moveTile("down", this);
-            this.player.updateSpriteDirection("down");
+            // this.movePhys.movePlayer("down");
         }
         if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A))){
             this.player.moveTile("left", this);
-            this.player.updateSpriteDirection("left");
+            // this.movePhys.movePlayer("left");
         }
         if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D))){
             this.player.moveTile("right", this);
-            this.player.updateSpriteDirection("right");
+            // this.movePhys.movePlayer("right");
         }
     }
 
@@ -59,7 +61,7 @@ class mainScene extends Phaser.Scene {
     }
 
     calculateTilePos(num){ //returns the center position of the tile when you input the grid number of the tile
-        return num * 16 + 8;
+        return num * this.tileSize + (this.tileSize / 2);
     }
 
     checkIfOccupiedTile(tile){ //returns false if any NPCs are located at the tile the player is trying to move to.
@@ -83,13 +85,13 @@ class mainScene extends Phaser.Scene {
         this.deco.depth = 1;
 
         this.plants = this.map.createLayer('PLANTS', this.tileset);
-        this.plants.depth = 2;
+        this.plants.depth = 3;
 
         this.tree = this.map.createLayer('TREE', this.tileset);
-        this.tree.depth = 3;
+        this.tree.depth = 4;
 
         this.treecorner = this.map.createLayer('TREECORNER', this.tileset);
-        this.treecorner.depth = 4;
+        this.treecorner.depth = 5;
 
         this.collisionLayer = this.map.createLayer('COLLISIONS', this.tileset);
     }

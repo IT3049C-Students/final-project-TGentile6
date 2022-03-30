@@ -20,5 +20,68 @@ class loadScene extends Phaser.Scene {
     create(){
         this.add.text(config.width/2, config.height/2, "Loading Game...").setOrigin(0.5);
         this.scene.start("mainScene");
+        this.anims.create({
+            key: "playerWalkUp1",
+            frames: [
+                { key: 'player',frame:6 },
+                { key: 'player',frame:3 },
+                { key: 'player',frame:7 },
+                { key: 'player',frame:3 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkUp2",
+            frames: [
+                { key: 'player',frame:7 },
+                { key: 'player',frame:3 },
+                { key: 'player',frame:6 },
+                { key: 'player',frame:3 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "playerWalkDown1",
+            frames: [
+                { key: 'player',frame:4 },
+                { key: 'player',frame:0 },
+                { key: 'player',frame:5 },
+                { key: 'player',frame:0 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkDown2",
+            frames: [
+                { key: 'player',frame:5 },
+                { key: 'player',frame:0 },
+                { key: 'player',frame:4 },
+                { key: 'player',frame:0 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkLeft",
+            frames: [
+                { key: 'player',frame:2 },
+                { key: 'player',frame:8 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkRight",
+            frames: [
+                { key: 'player',frame:9 },
+                { key: 'player',frame:1 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
     }
 }
