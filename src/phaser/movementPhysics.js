@@ -38,7 +38,9 @@ class movementPhysics{
         }
         else{
             this.moveSprite(pixelsToWalkThisUpdate);
+
         }
+        this.pixelsWalked += pixelsToWalkThisUpdate;
 
     }
     
@@ -49,7 +51,6 @@ class movementPhysics{
         console.log(pixelsToWalk)
         this.scene.player.x += distance.x
         this.scene.player.y += distance.y
-        this.pixelsWalked += pixelsToWalk;
     }
 
     willReachTile(pixelsToWalk){

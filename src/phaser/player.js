@@ -8,9 +8,10 @@ class Player extends Phaser.GameObjects.Sprite{
         this.inDialogue = false; //value to check if the player is currently reading dialogue
         this.isMoving = false;
         this.pixelsWalked = 0;
-        this.speed = scene.tileSize * 5;
+        this.speed = scene.tileSize * 6;
         this.WalkAnimUp = 0; //used to alternate between Upwards Walk Animations
         this.WalkAnimDown = 0; //used to alternate between Downwards Walk Animations
+        this.lastMovement = "";
     }
 
     getPosition(){
@@ -85,34 +86,46 @@ class Player extends Phaser.GameObjects.Sprite{
         return Yvalue;
     }
 
-    moveTile(direction, scene){
+    moveTile(direction){
         if(this.isMoving){return}
         var moveX = this.getDirectionX(direction);
         var moveY = this.getDirectionY(direction);
-        var tile = scene.collisionLayer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);
-        if(tile.index !== 21002 && !scene.checkIfOccupiedTile(tile)){
+        var tile = this.scene.collisionLayer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);
+        if(tile.index !== 21002 && !this.scene.checkIfOccupiedTile(tile)){
             this.facing = direction;
             this.isMoving = true;
             this.pixelsWalked = 0;
+            this.lastMovement = direction;
             this.playAnimation(this.facing);
         }
         else{
             this.facing = direction;
             this.updateSpriteDirection(this.facing);
+            this.lastMovement = "";
         }
     }
 
     updatePosition(delta){
         if(this.isMoving){
             const pixelsToWalk = this.speed * (delta / 1000);
-            if(this.willReachTile(pixelsToWalk)){
+            if(this.willReachTile(pixelsToWalk)){ 
                 this.moveSprite(this.scene.tileSize - this.pixelsWalked);
                 this.isMoving = false;
                 this.anims.stop();
+                if(!this.continueWalking(this.facing)){
+                    this.lastMovement = "";
+                }
                 this.updateSpriteDirection(this.facing);
             }
             else{
                 this.moveSprite(pixelsToWalk)
+            }
+            this.pixelsWalked += pixelsToWalk;
+            this.pixelsWalked %= this.scene.tileSize;
+        }
+        else{
+            if(this.facing == this.lastMovement){
+                this.moveTile(this.lastMovement);
             }
         }
     }
@@ -121,11 +134,26 @@ class Player extends Phaser.GameObjects.Sprite{
         const vector = this.getVector(this.facing);
         this.x += pixelsToWalk * vector.x;
         this.y += pixelsToWalk * vector.y;
-        this.pixelsWalked += pixelsToWalk;
     }
 
     willReachTile(pixelsToWalk){
         return (this.pixelsWalked + pixelsToWalk >= this.scene.tileSize);
+    }
+
+    continueWalking(currentDirection){
+        if(currentDirection == "up" && this.scene.wKey.isDown){
+            return true;
+        }
+        if(currentDirection == "down" && this.scene.sKey.isDown){
+            return true;
+        }
+        if(currentDirection == "left" && this.scene.aKey.isDown){
+            return true;
+        }
+        if(currentDirection == "right" && this.scene.dKey.isDown){
+            return true;
+        }
+        return false;
     }
 
     getVector(direction){

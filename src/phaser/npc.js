@@ -3,7 +3,6 @@ class NPC extends Phaser.GameObjects.Sprite{
         super(scene, x, y, sprite);
         scene.add.existing(this);
         this.name = npcName;
-        this.doorOpen = false;
     }
 
     getTile(scene){
@@ -29,21 +28,12 @@ class NPC extends Phaser.GameObjects.Sprite{
         }
     }
 
-    sayMessage(scene){
+    sayMessage(){
         if(this.name === "1"){
             console.log("hello!");
-
         }
         if(this.name === "2"){
-            if(this.doorOpen){
-                console.log("the door is open.")
-            }
-            else{
-                console.log("I opened the door for you!");
-
-                scene.map.replaceByIndex(1, 0);
-                this.doorOpen = true;
-            }
+            console.log("howdy!")
         }
     }
 }

@@ -7,9 +7,13 @@ class mainScene extends Phaser.Scene {
         this.drawMap();
         this.tileSize = 16;
 
-        //create the player, cursor keys
-        this.player = new Player(this)
-        this.cursorKeys = this.input.keyboard.createCursorKeys();
+        //create the player and keys
+        this.player = new Player(this);
+        this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //set the camera to follow player with bounds at the edges of the world
         this.cameras.main.setBounds(0, 0, 51 * this.tileSize, 50 * this.tileSize);
@@ -21,6 +25,10 @@ class mainScene extends Phaser.Scene {
         this.npc2.updateSpriteDirection("down");
         this.npcGroup = this.add.group();
         this.npcGroup.addMultiple([this.npc, this.npc2])
+        this.music = this.sound.add("townMusic")
+        this.music.loop = true;
+        this.music.volume = .3;
+        this.music.play();
         
     }
 
@@ -31,26 +39,26 @@ class mainScene extends Phaser.Scene {
     }
 
     checkMovement(){
-        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W))){
-            this.player.moveTile("up", this);
+        if(this.wKey.isDown && this.player.lastMovement == ""){
+            this.player.moveTile("up");
             // this.movePhys.movePlayer("up");
         }
-        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S))){
-            this.player.moveTile("down", this);
+        if(this.sKey.isDown && this.player.lastMovement == ""){
+            this.player.moveTile("down");
             // this.movePhys.movePlayer("down");
         }
-        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A))){
-            this.player.moveTile("left", this);
+        if(this.aKey.isDown && this.player.lastMovement == ""){
+            this.player.moveTile("left");
             // this.movePhys.movePlayer("left");
         }
-        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D))){
-            this.player.moveTile("right", this);
+        if(this.dKey.isDown && this.player.lastMovement == ""){
+            this.player.moveTile("right");
             // this.movePhys.movePlayer("right");
         }
     }
 
     talkToNPC(){
-        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER))){
+        if(Phaser.Input.Keyboard.JustDown(this.enterKey) && !this.player.isMoving){
             this.npcGroup.getChildren().forEach(npc => {
                 if(this.player.checkTile(this.player.facing, this) == npc.getTile(this)){
                     npc.sayMessage(this);

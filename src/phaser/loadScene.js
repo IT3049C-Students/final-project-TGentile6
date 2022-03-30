@@ -14,7 +14,9 @@ class loadScene extends Phaser.Scene {
             frameWidth: 16,
             frameHeight: 16
         });
+        this.load.audio("townMusic", "assets/tony by rawin.mp3");
         this.load.tilemapCSV('map', 'assets/tiles/testGrid.csv');
+        this.animFrameRate = 10;
     }
 
     create(){
@@ -28,7 +30,7 @@ class loadScene extends Phaser.Scene {
                 { key: 'player',frame:7 },
                 { key: 'player',frame:3 },
             ],
-            frameRate: 8,
+            frameRate: this.animFrameRate,
             repeat: -1
         });
         this.anims.create({
@@ -39,7 +41,7 @@ class loadScene extends Phaser.Scene {
                 { key: 'player',frame:6 },
                 { key: 'player',frame:3 },
             ],
-            frameRate: 8,
+            frameRate: this.animFrameRate,
             repeat: -1
         });
 
@@ -51,7 +53,7 @@ class loadScene extends Phaser.Scene {
                 { key: 'player',frame:5 },
                 { key: 'player',frame:0 },
             ],
-            frameRate: 8,
+            frameRate: this.animFrameRate,
             repeat: -1
         });
         this.anims.create({
@@ -62,16 +64,16 @@ class loadScene extends Phaser.Scene {
                 { key: 'player',frame:4 },
                 { key: 'player',frame:0 },
             ],
-            frameRate: 8,
+            frameRate: this.animFrameRate,
             repeat: -1
         });
         this.anims.create({
             key: "playerWalkLeft",
             frames: [
-                { key: 'player',frame:2 },
                 { key: 'player',frame:8 },
+                { key: 'player',frame:2 },
             ],
-            frameRate: 8,
+            frameRate: this.animFrameRate,
             repeat: -1
         });
         this.anims.create({
@@ -80,7 +82,7 @@ class loadScene extends Phaser.Scene {
                 { key: 'player',frame:9 },
                 { key: 'player',frame:1 },
             ],
-            frameRate: 8,
+            frameRate: this.animFrameRate,
             repeat: -1
         });
     }
