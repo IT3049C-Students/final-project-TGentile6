@@ -57,7 +57,7 @@ class NPC extends Phaser.GameObjects.Sprite{
             this.scene.dboxHandler.showDbox("Farmer John's house.");
         }
         if(this.name === "homeSign"){
-            this.scene.dboxHandler.showDbox("Your house.");
+            this.scene.dboxHandler.showDbox("Your house. I'm going to fill this text \nup for a while unnecessarily...");
         }
     }
 }
