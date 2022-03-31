@@ -3,6 +3,7 @@ class NPC extends Phaser.GameObjects.Sprite{
         super(scene, x, y, sprite);
         scene.add.existing(this);
         this.name = npcName;
+        this.depth = 3;
     }
 
     getTile(scene){
@@ -11,7 +12,7 @@ class NPC extends Phaser.GameObjects.Sprite{
         return tile;
     }
 
-    updateSpriteDirection(playerDirection){
+    facePlayer(playerDirection){
         switch (playerDirection){
             case "up":
                 this.setFrame(0); //down for NPC
@@ -28,12 +29,35 @@ class NPC extends Phaser.GameObjects.Sprite{
         }
     }
 
+    updateSpriteDirection(playerDirection){
+        switch (playerDirection){
+            case "up":
+                this.setFrame(3);
+                break;
+            case "down":
+                this.setFrame(0);
+                break;
+            case "left":
+                this.setFrame(2);
+                break;
+            case "right":
+                this.setFrame(1);
+                break;
+        }
+    }
+
     sayMessage(){
         if(this.name === "1"){
-            console.log("hello!");
+            this.scene.dboxHandler.showDbox("hello!");
         }
         if(this.name === "2"){
-            console.log("howdy!")
+            this.scene.dboxHandler.showDbox("howdy!");
+        }
+        if(this.name === "farmerSign"){
+            this.scene.dboxHandler.showDbox("Farmer John's house.");
+        }
+        if(this.name === "homeSign"){
+            this.scene.dboxHandler.showDbox("Your house.");
         }
     }
 }

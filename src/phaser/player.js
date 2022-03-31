@@ -1,14 +1,14 @@
 class Player extends Phaser.GameObjects.Sprite{
     constructor(scene){
-        super(scene, scene.calculateTilePos(8), scene.calculateTilePos(8), 'player');
+        super(scene, scene.calculateTilePos(11), scene.calculateTilePos(9), 'player');
         scene.add.existing(this);
-        this.depth = 2;
+        this.depth = 3;
         this.facing = "down";
         this.canMove = true; //value to check if the player is currently allowed to move
         this.inDialogue = false; //value to check if the player is currently reading dialogue
         this.isMoving = false;
         this.pixelsWalked = 0;
-        this.speed = scene.tileSize * 6;
+        this.speed = scene.tileSize * 6; // SET TO 4 !!!
         this.WalkAnimUp = 0; //used to alternate between Upwards Walk Animations
         this.WalkAnimDown = 0; //used to alternate between Downwards Walk Animations
         this.lastMovement = "";
@@ -88,6 +88,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
     moveTile(direction){
         if(this.isMoving){return}
+        if(!this.canMove){return}
         var moveX = this.getDirectionX(direction);
         var moveY = this.getDirectionY(direction);
         var tile = this.scene.collisionLayer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);

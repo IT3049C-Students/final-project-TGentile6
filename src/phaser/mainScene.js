@@ -6,36 +6,39 @@ class mainScene extends Phaser.Scene {
         //Create the map and it's layers from the Tiled JSON data
         this.drawMap();
         this.tileSize = 16;
+        this.animFrameRate = 10; //SET TO 8
 
         //create the player and keys
         this.player = new Player(this);
+        this.createPlayerAnims();
         this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        
         //set the camera to follow player with bounds at the edges of the world
         this.cameras.main.setBounds(0, 0, 51 * this.tileSize, 50 * this.tileSize);
         this.cameras.main.startFollow(this.player);
 
         //set up the NPCS
-        this.npc = new NPC(this, this.calculateTilePos(10), this.calculateTilePos(25), "npc", "1");
-        this.npc2 = new NPC(this, this.calculateTilePos(25), this.calculateTilePos(34), "npc", "2");
-        this.npc2.updateSpriteDirection("down");
-        this.npcGroup = this.add.group();
-        this.npcGroup.addMultiple([this.npc, this.npc2])
+        this.addNPCs();
+        
+        
         this.music = this.sound.add("townMusic")
         this.music.loop = true;
         this.music.volume = .3;
         this.music.play();
-        
+
+        this.addDbox();
     }
 
     update(time, delta){
         this.checkMovement();
         this.talkToNPC();
         this.player.updatePosition(delta);
+        this.dboxHandler.updateDbox();
     }
 
     checkMovement(){
@@ -58,11 +61,17 @@ class mainScene extends Phaser.Scene {
     }
 
     talkToNPC(){
+        if(!this.player.canMove){return}
         if(Phaser.Input.Keyboard.JustDown(this.enterKey) && !this.player.isMoving){
             this.npcGroup.getChildren().forEach(npc => {
                 if(this.player.checkTile(this.player.facing, this) == npc.getTile(this)){
                     npc.sayMessage(this);
-                    npc.updateSpriteDirection(this.player.facing);
+                    npc.facePlayer(this.player.facing);
+                }
+            });
+            this.signGroup.getChildren().forEach(sign => {
+                if(this.player.checkTile(this.player.facing, this) == sign.getTile(this)){
+                    sign.sayMessage(this);
                 }
             });
         }
@@ -89,18 +98,114 @@ class mainScene extends Phaser.Scene {
 
         this.grass = this.map.createLayer('GRASS', this.tileset);
         
-        this.deco = this.map.createLayer('GRASSDECORATION', this.tileset);
+        this.deco = this.map.createLayer('UNDERPLAYER', this.tileset);
         this.deco.depth = 1;
 
-        this.plants = this.map.createLayer('PLANTS', this.tileset);
-        this.plants.depth = 3;
+        this.plants = this.map.createLayer('UNDERPLAYER2', this.tileset);
+        this.plants.depth = 2;
 
-        this.tree = this.map.createLayer('TREE', this.tileset);
-        this.tree.depth = 4;
+        this.tree = this.map.createLayer('OVERPLAYER', this.tileset);
+        this.tree.depth = 5;
 
-        this.treecorner = this.map.createLayer('TREECORNER', this.tileset);
-        this.treecorner.depth = 5;
+        this.treecorner = this.map.createLayer('OVERPLAYER2', this.tileset);
+        this.treecorner.depth = 6;
+
+        this.treecorner = this.map.createLayer('OVERPLAYER3', this.tileset);
+        this.treecorner.depth = 7;
 
         this.collisionLayer = this.map.createLayer('COLLISIONS', this.tileset);
+    }
+
+    createPlayerAnims(){
+        this.anims.create({
+            key: "playerWalkUp1",
+            frames: [
+                { key: 'player',frame:6 },
+                { key: 'player',frame:3 },
+                { key: 'player',frame:7 },
+                { key: 'player',frame:3 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkUp2",
+            frames: [
+                { key: 'player',frame:7 },
+                { key: 'player',frame:3 },
+                { key: 'player',frame:6 },
+                { key: 'player',frame:3 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "playerWalkDown1",
+            frames: [
+                { key: 'player',frame:4 },
+                { key: 'player',frame:0 },
+                { key: 'player',frame:5 },
+                { key: 'player',frame:0 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkDown2",
+            frames: [
+                { key: 'player',frame:5 },
+                { key: 'player',frame:0 },
+                { key: 'player',frame:4 },
+                { key: 'player',frame:0 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkLeft",
+            frames: [
+                { key: 'player',frame:8 },
+                { key: 'player',frame:2 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkRight",
+            frames: [
+                { key: 'player',frame:9 },
+                { key: 'player',frame:1 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+    }
+
+    addDbox(){
+        this.dbox = this.add.image(200, 250, "dbox");
+        this.dbox.depth = 6;
+        this.dbox.setScrollFactor(0);
+        this.dbox.alpha = 0;
+
+        this.dboxHandler = new dBox(this);
+    }
+
+    addNPCs(){
+        //NPCs
+        this.npc = new NPC(this, this.calculateTilePos(14), this.calculateTilePos(11), "npc", "1");
+        this.npc2 = new NPC(this, this.calculateTilePos(25), this.calculateTilePos(34), "npc", "2");
+
+        //Signs
+        this.farmerSign = new NPC(this, this.calculateTilePos(35), this.calculateTilePos(13), "npc", "farmerSign");
+        this.homeSign = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(8), "npc", "homeSign");
+
+        //Add to group
+        this.npcGroup = this.add.group();
+        this.npcGroup.addMultiple([this.npc, this.npc2]);
+
+        this.signGroup = this.add.group();
+        this.signGroup.addMultiple([this.farmerSign, this.homeSign]);
+        this.signGroup.getChildren().forEach(sign => {sign.setAlpha(0)});
     }
 }
