@@ -2,6 +2,7 @@ class Player extends Phaser.GameObjects.Sprite{
     constructor(scene){
         super(scene, scene.calculateTilePos(11), scene.calculateTilePos(9), 'player');
         scene.add.existing(this);
+        this.setOrigin(0.5, 0.63)
         this.depth = 3;
         this.facing = "down";
         this.canMove = true; //value to check if the player is currently allowed to move
@@ -11,6 +12,8 @@ class Player extends Phaser.GameObjects.Sprite{
         this.speed = scene.tileSize * 6; // SET TO 4 !!!
         this.WalkAnimUp = 0; //used to alternate between Upwards Walk Animations
         this.WalkAnimDown = 0; //used to alternate between Downwards Walk Animations
+        this.WalkAnimLeft = 0; //used to alternate between Left Walk Animations
+        this.WalkAnimRight = 0; //used to alternate between Right Walk Animations
         this.lastMovement = "";
     }
 
@@ -196,11 +199,27 @@ class Player extends Phaser.GameObjects.Sprite{
                     break;
                 }
             case "left":
-                this.anims.play("playerWalkLeft");
-                break;
+                if(this.WalkAnimDown == 0){
+                    this.anims.play("playerWalkLeft1");
+                    this.WalkAnimDown = 1;
+                    break;
+                }
+                else{
+                    this.anims.play("playerWalkLeft2");
+                    this.WalkAnimDown = 0;
+                    break;
+                }
             case "right":
-                this.anims.play("playerWalkRight");
-                break;
+                if(this.WalkAnimDown == 0){
+                    this.anims.play("playerWalkRight1");
+                    this.WalkAnimDown = 1;
+                    break;
+                }
+                else{
+                    this.anims.play("playerWalkRight2");
+                    this.WalkAnimDown = 0;
+                    break;
+                }
             default:
         }
     }

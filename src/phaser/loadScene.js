@@ -3,13 +3,16 @@ class loadScene extends Phaser.Scene {
         super("loadScene");
     }
     preload(){
-        this.load.image('tiles', 'assets/tiles/testTiles.png');
-        this.load.image('newTiles', 'assets/tiles/pkmntiles.png');
-        this.load.tilemapTiledJSON('newMap', 'assets/tiles/TESTMAP.json');
-        this.load.image("dbox", "assets/sprites/dialoguebox.png");
-        this.load.spritesheet("player", "assets/sprites/testPlayerSprite.png",{
+        this.load.image('newTiles', 'assets/tiles/newTiles.png');
+        this.load.tilemapTiledJSON('newMap', 'assets/tiles/Map.json');
+        this.load.image("dbox", "assets/sprites/DBox.png");
+        this.load.spritesheet("arrow", "assets/sprites/Arrow.png",{
             frameWidth: 16,
             frameHeight: 16
+        });
+        this.load.spritesheet("player", "assets/sprites/testPlayerSprite2.png",{
+            frameWidth: 16,
+            frameHeight: 24
         });
         this.load.spritesheet("npc", "assets/sprites/testNPCSprite.png",{
             frameWidth: 16,

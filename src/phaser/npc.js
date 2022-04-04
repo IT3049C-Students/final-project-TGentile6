@@ -3,7 +3,7 @@ class NPC extends Phaser.GameObjects.Sprite{
         super(scene, x, y, sprite);
         scene.add.existing(this);
         this.name = npcName;
-        this.depth = 3;
+        this.depth = 2;
     }
 
     getTile(scene){
@@ -48,7 +48,7 @@ class NPC extends Phaser.GameObjects.Sprite{
 
     sayMessage(){
         if(this.name === "1"){
-            this.scene.dboxHandler.showDbox("hello!");
+            this.scene.dboxHandler.showDbox("I expect your rent by the end of today.");
         }
         if(this.name === "2"){
             this.scene.dboxHandler.showDbox("howdy!");
@@ -57,7 +57,7 @@ class NPC extends Phaser.GameObjects.Sprite{
             this.scene.dboxHandler.showDbox("Farmer John's house.");
         }
         if(this.name === "homeSign"){
-            this.scene.dboxHandler.showDbox("Your house. I'm going to fill this text \nup for a while unnecessarily...");
+            this.scene.dboxHandler.showDbox("Your house.");
         }
     }
 }

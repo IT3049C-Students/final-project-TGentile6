@@ -6,7 +6,7 @@ class mainScene extends Phaser.Scene {
         //Create the map and it's layers from the Tiled JSON data
         this.drawMap();
         this.tileSize = 16;
-        this.animFrameRate = 10; //SET TO 8
+        this.animFrameRate = 12; //SET TO 8
 
         //create the player and keys
         this.player = new Player(this);
@@ -70,7 +70,7 @@ class mainScene extends Phaser.Scene {
                 }
             });
             this.signGroup.getChildren().forEach(sign => {
-                if(this.player.checkTile(this.player.facing, this) == sign.getTile(this)){
+                if(this.player.checkTile(this.player.facing, this) == sign.getTile(this) && this.player.facing == "up"){
                     sign.sayMessage(this);
                 }
             });
@@ -163,8 +163,21 @@ class mainScene extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
-            key: "playerWalkLeft",
+            key: "playerWalkLeft1",
             frames: [
+                { key: 'player',frame:8 },
+                { key: 'player',frame:2 },
+                { key: 'player',frame:9 },
+                { key: 'player',frame:2 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "playerWalkLeft2",
+            frames: [
+                { key: 'player',frame:9 },
+                { key: 'player',frame:2 },
                 { key: 'player',frame:8 },
                 { key: 'player',frame:2 },
             ],
@@ -172,21 +185,46 @@ class mainScene extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
-            key: "playerWalkRight",
+            key: "playerWalkRight1",
             frames: [
-                { key: 'player',frame:9 },
+                { key: 'player',frame:10 },
+                { key: 'player',frame:1 },
+                { key: 'player',frame:11 },
                 { key: 'player',frame:1 },
             ],
             frameRate: this.animFrameRate,
             repeat: -1
         });
+        this.anims.create({
+            key: "playerWalkRight2",
+            frames: [
+                { key: 'player',frame:11 },
+                { key: 'player',frame:1 },
+                { key: 'player',frame:10 },
+                { key: 'player',frame:1 },
+            ],
+            frameRate: this.animFrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "arrowAnim",
+            frames: "arrow",
+            frameRate: 2,
+            repeat: -1
+        });
     }
 
     addDbox(){
-        this.dbox = this.add.image(200, 250, "dbox");
-        this.dbox.depth = 6;
+        this.dbox = this.add.image(0, 0, "dbox").setOrigin(0, 0);
+        this.dbox.depth = 9;
         this.dbox.setScrollFactor(0);
-        this.dbox.alpha = 0;
+        this.dbox.setVisible(false);
+        
+        this.arrow = this.add.sprite(350, 280, "arrow");
+        this.arrow.depth = 12;
+        this.arrow.setScrollFactor(0);
+        this.arrow.setVisible(false);
+        this.arrow.anims.play("arrowAnim");
 
         this.dboxHandler = new dBox(this);
     }
