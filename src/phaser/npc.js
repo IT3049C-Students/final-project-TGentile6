@@ -48,10 +48,13 @@ class NPC extends Phaser.GameObjects.Sprite{
 
     sayMessage(){
         if(this.name === "1"){
-            this.scene.dboxHandler.showDbox(["I expect your rent by the end of today.", "You've been delaying your payment too long."]);
+            this.scene.dboxHandler.showDbox(["Listen, I'm aware this property isn't the greatest, but you still need to pay rent.",
+            "That said... I'm willing to overlook this for a few days if you can run an errand for me...",
+            "Farmer John won't sell me any of his Fancy Carrots, and I've been really craving them recently.",
+            "If you can bring me some of Farmer John's Fancy Carrots, I'll overlook your rent for another week."]);
         }
         if(this.name === "2"){
-            this.scene.dboxHandler.showDbox(["howdy!", "Wonderful day isn't it?"]);
+            this.scene.dboxHandler.showDbox(["howdy!", "Have some Carrots!"], "carrot");
         }
         if(this.name === "farmerSign"){
             this.scene.dboxHandler.showDbox(["Farmer John's house."]);

@@ -15,6 +15,10 @@ class loadScene extends Phaser.Scene {
         this.load.image('newTiles', 'assets/tiles/newTiles.png');
         this.load.tilemapTiledJSON('newMap', 'assets/tiles/Map.json');
 
+        //Controls
+        this.load.image('controls', 'assets/sprites/controls.png');
+
+
         //Dialogue Boxes
         this.load.image("dbox", "assets/sprites/DBox.png");
         this.load.spritesheet("arrow", "assets/sprites/Arrow.png",{
@@ -38,6 +42,7 @@ class loadScene extends Phaser.Scene {
         //Items
         this.load.image('itemBox', 'assets/items/itemBox.png');
         this.load.image('carrot', 'assets/items/carrot.png');
+        this.load.image('noItem', 'assets/items/default.png');
         
     }
 

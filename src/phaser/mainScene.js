@@ -20,6 +20,7 @@ class mainScene extends Phaser.Scene {
         this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.cKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
@@ -40,11 +41,14 @@ class mainScene extends Phaser.Scene {
         //Creates handlers for Dialogue Boxes and Items
         this.addDboxHandler();
         this.addItemHandler();
+
+        //ControlsBox
+        this.addControlsBox();
     }
 
     update(time, delta){
         this.checkMovement();
-        this.talkToNPC();
+        this.interactionHandler();
         this.player.updatePosition(delta);
         this.dboxHandler.updateDbox();
     }
@@ -68,9 +72,9 @@ class mainScene extends Phaser.Scene {
         }
     }
 
-    talkToNPC(){
+    interactionHandler(){
         if(!this.player.canMove){return}
-        if(Phaser.Input.Keyboard.JustDown(this.enterKey) && !this.player.isMoving){
+        if(Phaser.Input.Keyboard.JustDown(this.enterKey) && !this.player.isMoving && !this.dboxHandler.isActive){
             this.npcGroup.getChildren().forEach(npc => {
                 if(this.player.checkTile(this.player.facing, this) == npc.getTile(this)){
                     npc.sayMessage(this);
@@ -82,6 +86,9 @@ class mainScene extends Phaser.Scene {
                     sign.sayMessage(this);
                 }
             });
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.cKey) && !this.player.isMoving && !this.dboxHandler.isActive){
+            this.dboxHandler.showDbox([`Current Item: ${this.currentItem.name} \nDescription: ${this.currentItem.desc}`]);
         }
     }
 
@@ -223,7 +230,7 @@ class mainScene extends Phaser.Scene {
     }
 
     addDboxHandler(){
-        this.dbox = this.add.image(0, 0, "dbox").setOrigin(0, 0);
+        this.dbox = this.add.image(0, 0, "dbox").setOrigin(0);
         this.dbox.depth = 9;
         this.dbox.setScrollFactor(0);
         this.dbox.setVisible(false);
@@ -238,9 +245,33 @@ class mainScene extends Phaser.Scene {
     }
 
     addItemHandler(){
+        this.itemBox = this.add.image(1, 1, "itemBox").setOrigin(0);
+        this.itemBox.setScrollFactor(0);
+        this.itemBox.depth = 10;
+
         this.itemHandler = new ItemHandler(this);
-        this.currentItem = this.itemHandler.getItem();
-        console.log(this.currentItem.desc);
+        this.currentItem = this.itemHandler.getItem("");
+
+        this.itemDisplay = this.add.image(7,7, this.currentItem.imgKey).setOrigin(0);
+        this.itemDisplay.depth = 11;
+        this.itemDisplay.setScrollFactor(0);
+
+        this.itemText = this.add.text(33, 2, this.currentItem.name, { fontFamily: "monaco", color: '#000', fontSize: '16px'});
+        this.itemText.depth = 11;
+        this.itemText.setScrollFactor(0);
+    }
+
+    addControlsBox(){
+        this.controlsBox = this.add.image(390, 0, "controls").setOrigin(0);
+        this.controlsBox.depth = 10;
+        this.controlsBox.setScrollFactor(0);
+        this.controlsBox.setInteractive();
+        this.controlsBox.on('pointerover', () => {
+            this.controlsBox.setX(264);
+        });
+        this.controlsBox.on('pointerout', () => {
+            this.controlsBox.setX(390);
+        });
     }
 
     addNPCs(){

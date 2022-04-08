@@ -10,6 +10,7 @@ class dBox{
         this.pages = 0;
         this.currentPage = 0;
         this.currentMessages = [""];
+        this.giveItem = "";
     }
 
     displayMessage(messages){
@@ -19,11 +20,12 @@ class dBox{
         this.waitTime = 75;
     }
 
-    showDbox(messages){
+    showDbox(messages, item){
         this.isActive = true;
         this.pages = messages.length;
         this.currentPage = 0;
         this.currentMessages = messages;
+        this.giveItem = item;
         
         this.scene.dbox.setVisible(true);
         this.scene.player.canMove = false;
@@ -57,6 +59,12 @@ class dBox{
     }
 
     hideDbox(){
+        if(this.giveItem != ""){
+            console.log(`giving item ${this.giveItem}`)
+            this.scene.currentItem = this.scene.itemHandler.getItem(this.giveItem);
+            this.scene.itemHandler.updateItem();
+        }
+        this.giveItem = "";
         this.isActive = false;
         this.scene.dbox.setVisible(false);
         this.scene.arrow.setVisible(false);
