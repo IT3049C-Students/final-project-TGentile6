@@ -6,7 +6,7 @@ const config = {
     scale: {
         zoom: 4
     },
-    backgroundColor: 0xb6e2a0,
+    backgroundColor: 0x000000,
     pixelArt: true,
     scene: [loadScene, mainScene],
     physics: {

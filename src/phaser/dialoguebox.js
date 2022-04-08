@@ -7,23 +7,43 @@ class dBox{
         this.text.setScrollFactor(0);
         this.text.setVisible(false);
         this.waitTime = 0;
+        this.pages = 0;
+        this.currentPage = 0;
+        this.currentMessages = [""];
     }
 
-    showDbox(message){
+    displayMessage(messages){
+        this.scene.arrow.setVisible(false);
+        this.pages--;
+        this.text.setText(messages[this.currentPage]);
+        this.waitTime = 75;
+    }
+
+    showDbox(messages){
         this.isActive = true;
+        this.pages = messages.length;
+        this.currentPage = 0;
+        this.currentMessages = messages;
         
         this.scene.dbox.setVisible(true);
         this.scene.player.canMove = false;
         this.scene.player.inDialogue = true;
-
-        this.text.setText(message)
+        this.text.setText("");
         this.text.setVisible(true);
-        this.waitTime = 75;
+
+        this.displayMessage(this.currentMessages);
+        
     }
 
     updateDbox(){
         if(this.scene.player.inDialogue && Phaser.Input.Keyboard.JustDown(this.scene.enterKey) && this.waitTime === 0){
-            this.hideDbox();
+            if(this.pages === 0){
+                this.hideDbox();
+            }
+            else{
+                this.currentPage++;
+                this.displayMessage(this.currentMessages)
+            }
         }
         if(this.isActive){
             if(this.waitTime > 0){

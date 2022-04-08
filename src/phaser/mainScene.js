@@ -3,10 +3,15 @@ class mainScene extends Phaser.Scene {
         super("mainScene");
     }
     create(){
+        //Fade into scene
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+
         //Create the map and it's layers from the Tiled JSON data
         this.drawMap();
         this.tileSize = 16;
-        this.animFrameRate = 12; //SET TO 8
+
+        //Set the framerate for animations
+        this.animFrameRate = 12; //Default: 8
 
         //create the player and keys
         this.player = new Player(this);
@@ -21,6 +26,7 @@ class mainScene extends Phaser.Scene {
         //set the camera to follow player with bounds at the edges of the world
         this.cameras.main.setBounds(0, 0, 51 * this.tileSize, 50 * this.tileSize);
         this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBackgroundColor(0xb6e2a0);
 
         //set up the NPCS
         this.addNPCs();

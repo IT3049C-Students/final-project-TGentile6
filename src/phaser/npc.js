@@ -48,16 +48,16 @@ class NPC extends Phaser.GameObjects.Sprite{
 
     sayMessage(){
         if(this.name === "1"){
-            this.scene.dboxHandler.showDbox("I expect your rent by the end of today.");
+            this.scene.dboxHandler.showDbox(["I expect your rent by the end of today.", "You've been delaying your payment too long."]);
         }
         if(this.name === "2"){
-            this.scene.dboxHandler.showDbox("howdy!");
+            this.scene.dboxHandler.showDbox(["howdy!", "Wonderful day isn't it?"]);
         }
         if(this.name === "farmerSign"){
-            this.scene.dboxHandler.showDbox("Farmer John's house.");
+            this.scene.dboxHandler.showDbox(["Farmer John's house."]);
         }
         if(this.name === "homeSign"){
-            this.scene.dboxHandler.showDbox("Your house.");
+            this.scene.dboxHandler.showDbox(["Your house."]);
         }
     }
 }
