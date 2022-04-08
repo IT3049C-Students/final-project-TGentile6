@@ -3,21 +3,26 @@ class loadScene extends Phaser.Scene {
         super("loadScene");
     }
     preload(){
+        //Title Screen
         this.load.image('titleScreen', 'assets/TitleScreen.png');
         this.load.image('Logo', 'assets/FetchQuest.png');
         this.load.spritesheet('pressStart', 'assets/sprites/PressStart.png', {
             frameWidth: 300,
             frameHeight: 18
         });
-        
 
+        //Map Data
         this.load.image('newTiles', 'assets/tiles/newTiles.png');
         this.load.tilemapTiledJSON('newMap', 'assets/tiles/Map.json');
+
+        //Dialogue Boxes
         this.load.image("dbox", "assets/sprites/DBox.png");
         this.load.spritesheet("arrow", "assets/sprites/Arrow.png",{
             frameWidth: 16,
             frameHeight: 16
         });
+
+        //Character Sprites
         this.load.spritesheet("player", "assets/sprites/testPlayerSprite2.png",{
             frameWidth: 16,
             frameHeight: 24
@@ -26,10 +31,18 @@ class loadScene extends Phaser.Scene {
             frameWidth: 16,
             frameHeight: 16
         });
+
+        //Music
         this.load.audio("townMusic", "assets/tony by rawin.mp3");
+
+        //Items
+        this.load.image('itemBox', 'assets/items/itemBox.png');
+        this.load.image('carrot', 'assets/items/carrot.png');
+        
     }
 
     create(){
+        //Title Screen graphics
         this.add.image(0,0,"titleScreen").setOrigin(0);
         this.add.image(25,25,"Logo").setOrigin(0).setScale(2);
         this.anims.create({
@@ -43,6 +56,7 @@ class loadScene extends Phaser.Scene {
         });
         this.add.sprite(200, 260,"pressStart").anims.play("pressStartAnim");
 
+        //Start Game handler
         this.input.keyboard.once('keydown-ENTER', () => {
             this.cameras.main.fadeOut(500, 0, 0, 0)
         })

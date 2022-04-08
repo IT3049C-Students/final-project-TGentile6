@@ -31,13 +31,15 @@ class mainScene extends Phaser.Scene {
         //set up the NPCS
         this.addNPCs();
         
-        
+        //Music
         this.music = this.sound.add("townMusic")
         this.music.loop = true;
         this.music.volume = .3;
         this.music.play();
 
-        this.addDbox();
+        //Creates handlers for Dialogue Boxes and Items
+        this.addDboxHandler();
+        this.addItemHandler();
     }
 
     update(time, delta){
@@ -220,7 +222,7 @@ class mainScene extends Phaser.Scene {
         });
     }
 
-    addDbox(){
+    addDboxHandler(){
         this.dbox = this.add.image(0, 0, "dbox").setOrigin(0, 0);
         this.dbox.depth = 9;
         this.dbox.setScrollFactor(0);
@@ -233,6 +235,12 @@ class mainScene extends Phaser.Scene {
         this.arrow.anims.play("arrowAnim");
 
         this.dboxHandler = new dBox(this);
+    }
+
+    addItemHandler(){
+        this.itemHandler = new ItemHandler(this);
+        this.currentItem = this.itemHandler.getItem();
+        console.log(this.currentItem.desc);
     }
 
     addNPCs(){
