@@ -15,10 +15,20 @@ class ItemHandler{
                 imgKey: "carrot",
                 desc: "The delicious and sought after Fancy Carrots grown by Farmer John"
                 }
+            case "watch":
+                return {name: "Wristwatch",
+                imgKey: "carrot",
+                desc: "A trusty Wristwatch great for always knowing the time."
+                }
+            case "mixtape":
+                return {name: "MP3 Player",
+                imgKey: "mixtape",
+                desc: "An MP3 Player loaded with amateur tunes."
+                }
             default:
-                return {name: "Error",
+                return {name: "No Item",
                 imgKey: "noItem",
-                desc: "You should not have this."
+                desc: "You don't have any item currently."
                 }
         }
     }
