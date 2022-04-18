@@ -4,7 +4,7 @@ class Logic{
         this.spokenLandlord = 0; //0 for never spoken, 1 for spoken to at least once, 2 for after given carrots.
         this.spokenFarmer = 0; //0 for never spoken, 1 for spoken to at least once, 2 for after given wristwatch.
         this.spokenTim = 0; //0 for never spoken, 1 for spoken to at least once, 2 for after given mp3.
-        this.spokenTeej = 0; //0 for never spoken, 1 for spoken to at least once, 2 for after given mp3 to Tim.
+        this.spokenTeej = 0; //0 for never spoken, 1 for spoken to at least once, 2 for after Tim is given mp3.
     }
 
     startGame(){
