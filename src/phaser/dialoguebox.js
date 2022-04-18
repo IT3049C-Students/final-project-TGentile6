@@ -3,7 +3,7 @@ class dBox{
         this.scene = scene;
         this.isActive = false;
         this.text = this.scene.add.text(47, 210, "", { fontFamily: "monaco", color: '#000', fontSize: '16px', wordWrap: { width: 310 }});
-        this.text.depth = 10;
+        this.text.depth = 15;
         this.text.setScrollFactor(0);
         this.text.setVisible(false);
         this.waitTime = 0;
@@ -17,7 +17,7 @@ class dBox{
         this.scene.arrow.setVisible(false);
         this.pages--;
         this.text.setText(messages[this.currentPage]);
-        this.waitTime = 75;
+        this.waitTime = 100;
     }
 
     showDbox(messages, item){
@@ -30,7 +30,6 @@ class dBox{
         }
         
         this.scene.dbox.setVisible(true);
-        this.scene.player.canMove = false;
         this.scene.player.inDialogue = true;
         this.text.setText("");
         this.text.setVisible(true);
@@ -70,7 +69,6 @@ class dBox{
         this.isActive = false;
         this.scene.dbox.setVisible(false);
         this.scene.arrow.setVisible(false);
-        this.scene.player.canMove = true;
         this.scene.player.inDialogue = false;
 
         this.text.setVisible(false);

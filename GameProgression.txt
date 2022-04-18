@@ -1,5 +1,7 @@
+Lil Teej wants Nothing gives MP3.
 
+Tim Elord wants MP3 gives Wristwatch.
 
-Farmer John wants _ gives Fancy Carrots.
+Farmer John wants Wristwatch gives Fancy Carrots.
 
 Landlord wants Fancy Carrots gives Game Completion.

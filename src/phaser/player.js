@@ -9,7 +9,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.inDialogue = false; //value to check if the player is currently reading dialogue
         this.isMoving = false;
         this.pixelsWalked = 0;
-        this.speed = scene.tileSize * 6; //Default: 4
+        this.speed = scene.tileSize * 12; //Default: 4
         this.WalkAnimUp = 0; //used to alternate between Upwards Walk Animations
         this.WalkAnimDown = 0; //used to alternate between Downwards Walk Animations
         this.WalkAnimLeft = 0; //used to alternate between Left Walk Animations
@@ -90,8 +90,8 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     moveTile(direction){
-        if(this.isMoving){return}
-        if(!this.canMove){return}
+        if(this.isMoving){return};
+        if(this.inDialogue){return};
         var moveX = this.getDirectionX(direction);
         var moveY = this.getDirectionY(direction);
         var tile = this.scene.collisionLayer.getTileAtWorldXY(this.x + moveX, this.y + moveY, true);

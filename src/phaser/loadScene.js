@@ -10,6 +10,7 @@ class loadScene extends Phaser.Scene {
             frameWidth: 300,
             frameHeight: 18
         });
+        this.load.image('blackScreen', 'assets/sprites/TheBigBlack.png');
 
         //Map Data
         this.load.image('newTiles', 'assets/tiles/newTiles.png');

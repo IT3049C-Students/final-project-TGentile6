@@ -9,6 +9,7 @@ class mainScene extends Phaser.Scene {
         //Create the map and it's layers from the Tiled JSON data
         this.drawMap();
         this.tileSize = 16;
+        
 
         //Set the framerate for animations
         this.animFrameRate = 12; //Default: 8
@@ -44,6 +45,10 @@ class mainScene extends Phaser.Scene {
 
         //ControlsBox
         this.addControlsBox();
+
+        //Create Game Logic Handler
+        this.addGameLogic();
+        this.blackScreen = this.add.image(0, 0, "blackScreen").setOrigin(0).setAlpha(0).setDepth(12);
     }
 
     update(time, delta){
@@ -51,6 +56,7 @@ class mainScene extends Phaser.Scene {
         this.interactionHandler();
         this.player.updatePosition(delta);
         this.dboxHandler.updateDbox();
+        this.gameLogic.completionCheck();
     }
 
     checkMovement(){
@@ -73,6 +79,7 @@ class mainScene extends Phaser.Scene {
     }
 
     interactionHandler(){
+        if(this.player.inDialogue){return}
         if(!this.player.canMove){return}
         if(Phaser.Input.Keyboard.JustDown(this.enterKey) && !this.player.isMoving && !this.dboxHandler.isActive){
             this.npcGroup.getChildren().forEach(npc => {
@@ -88,7 +95,7 @@ class mainScene extends Phaser.Scene {
             });
         }
         if(Phaser.Input.Keyboard.JustDown(this.cKey) && !this.player.isMoving && !this.dboxHandler.isActive){
-            this.dboxHandler.showDbox([`Current Item: ${this.currentItem.name} \nDescription: ${this.currentItem.desc}`]);
+            this.dboxHandler.showDbox([`Current Item:  ${this.currentItem.name} \nDescription:  ${this.currentItem.desc}`]);
         }
     }
 
@@ -231,12 +238,12 @@ class mainScene extends Phaser.Scene {
 
     addDboxHandler(){
         this.dbox = this.add.image(0, 0, "dbox").setOrigin(0);
-        this.dbox.depth = 9;
+        this.dbox.depth = 14;
         this.dbox.setScrollFactor(0);
         this.dbox.setVisible(false);
         
         this.arrow = this.add.sprite(350, 280, "arrow");
-        this.arrow.depth = 12;
+        this.arrow.depth = 16;
         this.arrow.setScrollFactor(0);
         this.arrow.setVisible(false);
         this.arrow.anims.play("arrowAnim");
@@ -250,7 +257,7 @@ class mainScene extends Phaser.Scene {
         this.itemBox.depth = 10;
 
         this.itemHandler = new ItemHandler(this);
-        this.currentItem = this.itemHandler.getItem("");
+        this.currentItem = this.itemHandler.getItem("noItem");
 
         this.itemDisplay = this.add.image(7,7, this.currentItem.imgKey).setOrigin(0);
         this.itemDisplay.depth = 11;
@@ -276,19 +283,23 @@ class mainScene extends Phaser.Scene {
 
     addNPCs(){
         //NPCs
-        this.npc = new NPC(this, this.calculateTilePos(14), this.calculateTilePos(11), "npc", "1");
-        this.npc2 = new NPC(this, this.calculateTilePos(25), this.calculateTilePos(34), "npc", "2");
+        this.landlordNPC = new NPC(this, this.calculateTilePos(14), this.calculateTilePos(11), "npc", "landlord");
+        this.farmerNPC = new NPC(this, this.calculateTilePos(37), this.calculateTilePos(5), "npc", "farmer");
 
         //Signs
-        this.farmerSign = new NPC(this, this.calculateTilePos(35), this.calculateTilePos(13), "npc", "farmerSign");
-        this.homeSign = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(8), "npc", "homeSign");
+        this.farmerSign = new NPC(this, this.calculateTilePos(35), this.calculateTilePos(13), "noItem", "farmerSign");
+        this.homeSign = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(8), "noItem", "homeSign");
 
         //Add to group
         this.npcGroup = this.add.group();
-        this.npcGroup.addMultiple([this.npc, this.npc2]);
+        this.npcGroup.addMultiple([this.landlordNPC, this.farmerNPC]);
 
         this.signGroup = this.add.group();
         this.signGroup.addMultiple([this.farmerSign, this.homeSign]);
         this.signGroup.getChildren().forEach(sign => {sign.setAlpha(0)});
+    }
+
+    addGameLogic(){
+        this.gameLogic = new Logic(this);
     }
 }

@@ -17,7 +17,7 @@ class ItemHandler{
                 }
             case "watch":
                 return {name: "Wristwatch",
-                imgKey: "carrot",
+                imgKey: "watch",
                 desc: "A trusty Wristwatch great for always knowing the time."
                 }
             case "mixtape":
@@ -25,6 +25,13 @@ class ItemHandler{
                 imgKey: "mixtape",
                 desc: "An MP3 Player loaded with amateur tunes."
                 }
+            case "completion":
+                return {name: "No Item",
+                imgKey: "noItem",
+                desc: "You don't have any item currently.",
+                state: "completion"
+                }
+            case "noItem":
             default:
                 return {name: "No Item",
                 imgKey: "noItem",
