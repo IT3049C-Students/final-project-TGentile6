@@ -6,7 +6,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.depth = 3;
         this.facing = "down";
         this.canMove = true; //value to check if the player is currently allowed to move
-        this.inDialogue = false; //value to check if the player is currently reading dialogue
+        this.inDialogue = true; //value to check if the player is currently reading dialogue
         this.isMoving = false;
         this.pixelsWalked = 0;
         this.speed = scene.tileSize * 12; //Default: 4

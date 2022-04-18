@@ -43,6 +43,8 @@ class loadScene extends Phaser.Scene {
         //Items
         this.load.image('itemBox', 'assets/items/itemBox.png');
         this.load.image('carrot', 'assets/items/carrot.png');
+        this.load.image('watch', 'assets/items/watch.png');
+        this.load.image('mixtape', 'assets/items/mixtape.png');
         this.load.image('noItem', 'assets/items/default.png');
         
     }
@@ -62,7 +64,7 @@ class loadScene extends Phaser.Scene {
         });
         this.add.sprite(200, 260,"pressStart").anims.play("pressStartAnim");
 
-        //Start Game handler
+        //Start Game
         this.input.keyboard.once('keydown-ENTER', () => {
             this.cameras.main.fadeOut(500, 0, 0, 0)
         })

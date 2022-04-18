@@ -3,9 +3,6 @@ class mainScene extends Phaser.Scene {
         super("mainScene");
     }
     create(){
-        //Fade into scene
-        this.cameras.main.fadeIn(500, 0, 0, 0);
-
         //Create the map and it's layers from the Tiled JSON data
         this.drawMap();
         this.tileSize = 16;
@@ -29,6 +26,7 @@ class mainScene extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 51 * this.tileSize, 50 * this.tileSize);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setBackgroundColor(0xb6e2a0);
+        this.blackScreen = this.add.image(0, 0, "blackScreen").setOrigin(0).setAlpha(0).setDepth(12);
 
         //set up the NPCS
         this.addNPCs();
@@ -48,7 +46,12 @@ class mainScene extends Phaser.Scene {
 
         //Create Game Logic Handler
         this.addGameLogic();
-        this.blackScreen = this.add.image(0, 0, "blackScreen").setOrigin(0).setAlpha(0).setDepth(12);
+
+        //Fade into scene
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, (cam, effect) => {
+            this.gameLogic.startGame();
+        })
     }
 
     update(time, delta){
@@ -84,13 +87,13 @@ class mainScene extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(this.enterKey) && !this.player.isMoving && !this.dboxHandler.isActive){
             this.npcGroup.getChildren().forEach(npc => {
                 if(this.player.checkTile(this.player.facing, this) == npc.getTile(this)){
-                    npc.sayMessage(this);
+                    npc.sayMessage();
                     npc.facePlayer(this.player.facing);
                 }
             });
             this.signGroup.getChildren().forEach(sign => {
                 if(this.player.checkTile(this.player.facing, this) == sign.getTile(this) && this.player.facing == "up"){
-                    sign.sayMessage(this);
+                    sign.signMessage();
                 }
             });
         }
@@ -283,19 +286,27 @@ class mainScene extends Phaser.Scene {
 
     addNPCs(){
         //NPCs
-        this.landlordNPC = new NPC(this, this.calculateTilePos(14), this.calculateTilePos(11), "npc", "landlord");
-        this.farmerNPC = new NPC(this, this.calculateTilePos(37), this.calculateTilePos(5), "npc", "farmer");
+        this.landlordNPC = new NPC(this, this.calculateTilePos(12), this.calculateTilePos(9), "npc", "landlord");
+        this.farmerNPC = new NPC(this, this.calculateTilePos(41), this.calculateTilePos(14), "npc", "farmer");
+        this.timNPC = new NPC(this, this.calculateTilePos(28), this.calculateTilePos(34), "npc", "tim");
+        this.teejNPC = new NPC(this, this.calculateTilePos(40), this.calculateTilePos(39), "npc", "teej");
+        this.randomNPC1 = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(41), "npc", "random1");
+        this.randomNPC2 = new NPC(this, this.calculateTilePos(32), this.calculateTilePos(23), "npc", "random2");
+        this.randomNPC3 = new NPC(this, this.calculateTilePos(7), this.calculateTilePos(31), "npc", "random3");
 
         //Signs
-        this.farmerSign = new NPC(this, this.calculateTilePos(35), this.calculateTilePos(13), "noItem", "farmerSign");
         this.homeSign = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(8), "noItem", "homeSign");
+        this.landlordSign = new NPC(this, this.calculateTilePos(30), this.calculateTilePos(32), "noItem", "landlordSign");
+        this.farmerSign = new NPC(this, this.calculateTilePos(35), this.calculateTilePos(13), "noItem", "farmerSign");
+        this.timSign = new NPC(this, this.calculateTilePos(33), this.calculateTilePos(40), "noItem", "timSign");
+        this.teejSign = new NPC(this, this.calculateTilePos(12), this.calculateTilePos(30), "noItem", "teejSign");
 
         //Add to group
         this.npcGroup = this.add.group();
-        this.npcGroup.addMultiple([this.landlordNPC, this.farmerNPC]);
+        this.npcGroup.addMultiple([this.landlordNPC, this.farmerNPC, this.timNPC, this.teejNPC, this.randomNPC1, this.randomNPC2, this.randomNPC3]);
 
         this.signGroup = this.add.group();
-        this.signGroup.addMultiple([this.farmerSign, this.homeSign]);
+        this.signGroup.addMultiple([this.homeSign, this.landlordSign, this.farmerSign, this.timSign, this.teejSign]);
         this.signGroup.getChildren().forEach(sign => {sign.setAlpha(0)});
     }
 

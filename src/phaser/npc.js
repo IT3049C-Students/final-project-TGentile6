@@ -47,13 +47,7 @@ class NPC extends Phaser.GameObjects.Sprite{
     }
 
     sayMessage(){
-        if(this.name === "landlord"){
-            this.scene.gameLogic.getMessage(this.name);
-        }
-        if(this.name === "farmer"){
-            this.scene.dboxHandler.showDbox(["howdy!", "Have some Carrots!"], "carrot");
-        }
-        
+        this.scene.gameLogic.getMessage(this.name);
     }
 
     signMessage(){
@@ -62,6 +56,15 @@ class NPC extends Phaser.GameObjects.Sprite{
         }
         if(this.name === "homeSign"){
             this.scene.dboxHandler.showDbox(["Your house."]);
+        }
+        if(this.name === "timSign"){
+            this.scene.dboxHandler.showDbox(["Tim E. Keeper's house."]);
+        }
+        if(this.name === "landlordSign"){
+            this.scene.dboxHandler.showDbox(["Landlord's house."]);
+        }
+        if(this.name === "teejSign"){
+            this.scene.dboxHandler.showDbox(["Lil Teej's house."]);
         }
     }
 }
