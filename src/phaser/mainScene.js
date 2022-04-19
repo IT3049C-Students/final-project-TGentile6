@@ -9,7 +9,7 @@ class mainScene extends Phaser.Scene {
         
 
         //Set the framerate for animations
-        this.animFrameRate = 12; //Default: 8
+        this.animFrameRate = 12; //Default: 12
 
         //create the player and keys
         this.player = new Player(this);
@@ -286,13 +286,13 @@ class mainScene extends Phaser.Scene {
 
     addNPCs(){
         //NPCs
-        this.landlordNPC = new NPC(this, this.calculateTilePos(12), this.calculateTilePos(9), "npc", "landlord");
-        this.farmerNPC = new NPC(this, this.calculateTilePos(41), this.calculateTilePos(14), "npc", "farmer");
-        this.timNPC = new NPC(this, this.calculateTilePos(28), this.calculateTilePos(34), "npc", "tim");
-        this.teejNPC = new NPC(this, this.calculateTilePos(40), this.calculateTilePos(39), "npc", "teej");
-        this.randomNPC1 = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(41), "npc", "random1");
-        this.randomNPC2 = new NPC(this, this.calculateTilePos(32), this.calculateTilePos(23), "npc", "random2");
-        this.randomNPC3 = new NPC(this, this.calculateTilePos(7), this.calculateTilePos(31), "npc", "random3");
+        this.landlordNPC = new NPC(this, this.calculateTilePos(12), this.calculateTilePos(9), "landlord", "landlord");
+        this.farmerNPC = new NPC(this, this.calculateTilePos(41), this.calculateTilePos(14), "farmer", "farmer");
+        this.timNPC = new NPC(this, this.calculateTilePos(28), this.calculateTilePos(34), "tim", "tim");
+        this.teejNPC = new NPC(this, this.calculateTilePos(40), this.calculateTilePos(39), "teej", "teej");
+        this.randomNPC1 = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(41), "random1", "random1");
+        this.randomNPC2 = new NPC(this, this.calculateTilePos(32), this.calculateTilePos(23), "random2", "random2");
+        this.randomNPC3 = new NPC(this, this.calculateTilePos(7), this.calculateTilePos(31), "random3", "random3");
 
         //Signs
         this.homeSign = new NPC(this, this.calculateTilePos(9), this.calculateTilePos(8), "noItem", "homeSign");
@@ -304,6 +304,7 @@ class mainScene extends Phaser.Scene {
         //Add to group
         this.npcGroup = this.add.group();
         this.npcGroup.addMultiple([this.landlordNPC, this.farmerNPC, this.timNPC, this.teejNPC, this.randomNPC1, this.randomNPC2, this.randomNPC3]);
+        this.npcGroup.getChildren().forEach(npc => {npc.setOrigin(0.5, 0.63)});
 
         this.signGroup = this.add.group();
         this.signGroup.addMultiple([this.homeSign, this.landlordSign, this.farmerSign, this.timSign, this.teejSign]);

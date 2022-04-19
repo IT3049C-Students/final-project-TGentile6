@@ -61,7 +61,6 @@ class dBox{
 
     hideDbox(){
         if(this.giveItem != null){
-            console.log(`giving item ${this.giveItem}`)
             this.scene.currentItem = this.scene.itemHandler.getItem(this.giveItem);
             this.scene.itemHandler.updateItem();
         }

@@ -28,13 +28,41 @@ class loadScene extends Phaser.Scene {
         });
 
         //Character Sprites
-        this.load.spritesheet("player", "assets/sprites/testPlayerSprite2.png",{
+        this.load.spritesheet("player", "assets/sprites/player.png",{
             frameWidth: 16,
             frameHeight: 24
         });
-        this.load.spritesheet("npc", "assets/sprites/testNPCSprite.png",{
+        this.load.spritesheet("random1", "assets/sprites/randomNPC1.png",{
             frameWidth: 16,
-            frameHeight: 16
+            frameHeight: 24
+        });
+        this.load.spritesheet("random2", "assets/sprites/randomNPC2.png",{
+            frameWidth: 16,
+            frameHeight: 24
+        });
+        this.load.spritesheet("random3", "assets/sprites/randomNPC3.png",{
+            frameWidth: 16,
+            frameHeight: 24
+        });
+        this.load.spritesheet("teej", "assets/sprites/lilteej.png",{
+            frameWidth: 16,
+            frameHeight: 24
+        });
+        this.load.spritesheet("npc", "assets/sprites/testNPCSprite2.png",{
+            frameWidth: 16,
+            frameHeight: 24
+        });
+        this.load.spritesheet("tim", "assets/sprites/tim.png",{
+            frameWidth: 16,
+            frameHeight: 24
+        });
+        this.load.spritesheet("farmer", "assets/sprites/farmer.png",{
+            frameWidth: 16,
+            frameHeight: 24
+        });
+        this.load.spritesheet("landlord", "assets/sprites/landlord.png",{
+            frameWidth: 16,
+            frameHeight: 24
         });
 
         //Music

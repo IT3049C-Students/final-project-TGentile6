@@ -145,13 +145,13 @@ class Logic{
 
         //Random NPCs
         if(npcName == "random1"){
-            this.scene.dboxHandler.showDbox(["Hunter:  I heard Lil Teej is giving out MP3 players with his music again... how does he get his hands on that many MP3 players?"]);
-        }
-        if(npcName == "random2"){
             this.scene.dboxHandler.showDbox(["Olivia:  Have you ever noticed that Tim never checks his watch for the time? Does he just keep track of it in his head?"]);
         }
-        if(npcName == "random3"){
+        if(npcName == "random2"){
             this.scene.dboxHandler.showDbox(["Christina:  Man I wish Farmer John would give me some of his Fancy Carrots... He's being so stingy after this year's small harvest!"]);
+        }
+        if(npcName == "random3"){
+            this.scene.dboxHandler.showDbox(["Hunter:  I heard Lil Teej is giving out MP3 players with his music again... how does he get his hands on that many MP3 players?"]);
         }
     }
 
