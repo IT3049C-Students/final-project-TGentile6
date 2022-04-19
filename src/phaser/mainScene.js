@@ -255,20 +255,23 @@ class mainScene extends Phaser.Scene {
     }
 
     addItemHandler(){
-        this.itemBox = this.add.image(1, 1, "itemBox").setOrigin(0);
-        this.itemBox.setScrollFactor(0);
-        this.itemBox.depth = 10;
-
         this.itemHandler = new ItemHandler(this);
         this.currentItem = this.itemHandler.getItem("noItem");
 
-        this.itemDisplay = this.add.image(7,7, this.currentItem.imgKey).setOrigin(0);
-        this.itemDisplay.depth = 11;
-        this.itemDisplay.setScrollFactor(0);
+        this.itemBox = this.add.image(1, 1, "itemBox")
+        .setOrigin(0)
+        .setDepth(10)
+        .setScrollFactor(0);
 
-        this.itemText = this.add.text(33, 2, this.currentItem.name, { fontFamily: "monaco", color: '#000', fontSize: '16px'});
-        this.itemText.depth = 11;
-        this.itemText.setScrollFactor(0);
+        this.itemDisplay = this.add.image(7,7, this.currentItem.imgKey)
+        .setOrigin(0)
+        .setDepth(11)
+        .setScrollFactor(0);
+
+        this.itemText = this.add.text(33, 2, this.currentItem.name, 
+            { fontFamily: "monaco", color: '#000', fontSize: '16px'})
+        .setDepth(11)
+        .setScrollFactor(0);
     }
 
     addControlsBox(){
