@@ -4,7 +4,7 @@ const config = {
     height: 300,
     debug: false,
     scale: {
-        zoom: 4
+        zoom: 2
     },
     backgroundColor: 0x000000,
     pixelArt: true,
